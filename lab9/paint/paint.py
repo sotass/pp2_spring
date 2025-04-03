@@ -3,11 +3,11 @@ from pygame.locals import *
 
 pygame.init()
 
-# Терезе және тор параметрлері
+
 WIDTH, HEIGHT = 850, 600
 CELL_SIZE = 20
 
-# Түстер
+
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
@@ -15,23 +15,23 @@ RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
-# Терезе жасау
+
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Advanced Paint Application")
 clock = pygame.time.Clock()
 
-# Сурет салу аймағы 
+ 
 canvas = pygame.Surface((WIDTH, HEIGHT))
 canvas.fill(WHITE)
 
-# Ағымдағы параметрлер
-current_tool = "pen"  # Қазіргі таңдалған құрал
-current_color = BLACK  # Қазіргі түс
-brush_size = 4  # Қалам өлшемі
-eraser_size = 20  # Өшіргіш өлшемі
-start_pos = None  # Фигураларды салуды бастау нүктесі
 
-# Құралдарды көрсету функциясы
+current_tool = "pen"  
+current_color = BLACK  
+brush_size = 4  
+eraser_size = 20  
+start_pos = None 
+
+
 
 def draw_instructions():
     font = pygame.font.SysFont("Verdana", 16)
@@ -46,14 +46,14 @@ def draw_instructions():
         screen.blit(text, (5, y))
         y += 20
 
-# Тікбұрышты үшбұрыш салу функциясы
+
 
 def draw_right_triangle(surface, color, start, end):
     x1, y1 = start
     x2, y2 = end
     pygame.draw.polygon(surface, color, [(x1, y1), (x1, y2), (x2, y2)], 2)
 
-# Тең қабырғалы үшбұрыш салу функциясы
+
 
 def draw_equilateral_triangle(surface, color, start, end):
     x1, y1 = start
@@ -62,7 +62,7 @@ def draw_equilateral_triangle(surface, color, start, end):
     height = (math.sqrt(3) / 2) * base
     pygame.draw.polygon(surface, color, [(x1, y2), (x2, y2), ((x1 + x2) // 2, y2 - height)], 2)
 
-# Ромб салу функциясы
+
 
 def draw_rhombus(surface, color, start, end):
     x1, y1 = start
@@ -76,14 +76,14 @@ def draw_rhombus(surface, color, start, end):
         (x1, (y1 + y2) // 2)   
     ], 2)
 
-# Негізгі цикл
+
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
 
-        # Құрал таңдау
+        
         if event.type == KEYDOWN:
             if event.key == K_1:
                 current_tool = "pen"
@@ -101,7 +101,7 @@ while running:
                 current_tool = "equilateral_triangle"
             elif event.key == K_8:
                 current_tool = "rhombus"
-            # Түс таңдау
+            
             elif event.key == K_r:
                 current_color = RED
             elif event.key == K_g:
@@ -115,7 +115,7 @@ while running:
             elif event.key == K_w:
                 current_color = WHITE
 
-        # Салуды бастау
+        
         if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:  
                 start_pos = event.pos
@@ -123,14 +123,14 @@ while running:
                     draw_color = WHITE if current_tool == "eraser" else current_color
                     pygame.draw.circle(canvas, draw_color, event.pos, brush_size if current_tool == "pen" else eraser_size)
 
-        # Қолмен сурет салу
+        
         if event.type == MOUSEMOTION:
             if event.buttons[0]:
                 if current_tool in ["pen", "eraser"]:
                     draw_color = WHITE if current_tool == "eraser" else current_color
                     pygame.draw.circle(canvas, draw_color, event.pos, brush_size if current_tool == "pen" else eraser_size)
 
-        # Фигураны аяқтау
+        
         if event.type == MOUSEBUTTONUP:
             if event.button == 1 and start_pos:
                 end_pos = event.pos
@@ -163,7 +163,7 @@ while running:
 
                 start_pos = None
 
-    # Экранды жаңарту
+    
     screen.fill(WHITE)
     screen.blit(canvas, (0, 0))
     draw_instructions()
